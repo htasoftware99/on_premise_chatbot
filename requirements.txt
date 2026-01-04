@@ -12,3 +12,4 @@ google-search-results
 transformers
 torch
 pypdf
+google-generativeai

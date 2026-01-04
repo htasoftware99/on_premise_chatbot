@@ -24,11 +24,20 @@ from langchain_community.document_loaders import PyPDFLoader
 # Text Splitter
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
+import google.generativeai as genai
+
 load_dotenv()
 
 SERPAPI_KEY = os.getenv("SERPAPI_KEY")
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 OLLAMA_MODEL = "gemma3:4b"  
 CHROMA_PATH = "./chroma_db"
+
+# --- GEMINI YAPILANDIRMASI (STT İçin) ---
+if GOOGLE_API_KEY:
+    genai.configure(api_key=GOOGLE_API_KEY)
+else:
+    print("UYARI: GOOGLE_API_KEY bulunamadı. Sesli sohbet çalışmayabilir.")
 
 # --- BAŞLANGIÇ AYARLARI ---
 app = FastAPI()
@@ -114,6 +123,39 @@ class ResponseModel(BaseModel):
     source: str
 
 # --- ENDPOINTLER ---
+
+# YENİ ENDPOINT: Ses dosyasını metne çevir (Gemini ile)
+@app.post("/transcribe")
+async def transcribe_audio(file: UploadFile = File(...)):
+    try:
+        print(f"🎤 Ses dosyası alındı: {file.filename}")
+        print(f"ℹ️ Dosya Tipi: {file.content_type}")
+        
+        # Dosyayı belleğe oku
+        audio_bytes = await file.read()
+        
+        # Model Tanımla
+        print("🤖 gemini-2.5-flash modeli yükleniyor...")
+        model = genai.GenerativeModel("gemini-2.5-flash")
+        
+        # Modele gönder
+        print("📤 Ses verisi Google'a gönderiliyor...")
+        response = model.generate_content([
+            {
+                "mime_type": "audio/wav", # Streamlit genelde wav gönderir, bunu sabitledik
+                "data": audio_bytes
+            },
+            "Bu ses kaydını kelimesi kelimesine metne dök (Transcribe). Sadece metni yaz."
+        ])
+        
+        print(f"✅ Çeviri Başarılı: {response.text[:50]}...") # İlk 50 karakteri logla
+        return {"text": response.text.strip()}
+    
+    except Exception as e:
+        # HATAYI BURADA GÖRECEĞİZ
+        print(f"❌ KRİTİK HATA: {e}")
+        # Hatanın detayını frontend'e de gönderelim
+        raise HTTPException(status_code=500, detail=f"Sunucu Hatası: {str(e)}")
 
 @app.post("/upload")
 async def upload_document(file: UploadFile = File(...)):
