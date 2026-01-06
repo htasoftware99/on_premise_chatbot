@@ -141,11 +141,11 @@ async def transcribe_audio(file: UploadFile = File(...)):
         # Modele gönder
         print("📤 Ses verisi Google'a gönderiliyor...")
         response = model.generate_content([
+            "Aşağıdaki ses dosyasındaki konuşmaları birebir metne çevir. Sadece duyduğun kelimeleri yaz, başka hiçbir açıklama, yorum veya komut tekrarı yapma.",
             {
-                "mime_type": "audio/wav", # Streamlit genelde wav gönderir, bunu sabitledik
+                "mime_type": "audio/wav",
                 "data": audio_bytes
-            },
-            "Bu ses kaydını kelimesi kelimesine metne dök (Transcribe). Sadece metni yaz."
+            }
         ])
         
         print(f"✅ Çeviri Başarılı: {response.text[:50]}...") # İlk 50 karakteri logla

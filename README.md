@@ -1,23 +1,25 @@
 # Intent Detection & RAG AI Assistant
 
-Bu proje, kullanıcı niyetini (intent) algılayarak en uygun cevabı veren; genel sohbet, web araması ve döküman analizi yeteneklerine sahip bir yapay zeka asistanıdır.
+Bu proje, kullanıcı niyetini (intent) algılayarak en uygun cevabı veren; **sesli/yazılı sohbet**, web araması ve döküman analizi yeteneklerine sahip gelişmiş bir yapay zeka asistanıdır.
 
 ## 🚀 Özellikler
 
+*   **🎙️ Sesli Sohbet (Speech-to-Text):** Google Gemini 2.5 Flash modeli ile güçlendirilmiş ses tanıma özelliği sayesinde asistanla sesli konuşabilirsiniz.
+*   **🗂️ Sohbet Yönetimi (History):** Yan menü (sidebar) üzerinden yeni sohbet başlatabilir, eski sohbetleriniz arasında geçiş yapabilir veya silebilirsiniz.
 *   **Akıllı Niyet Algılama (Intent Detection):** Kullanıcının sorusunu analiz eder ve üç kategoriden birine sınıflandırır:
     *   **Genel Sohbet (`general_chat`):** Günlük konuşmalar ve selamlaşmalar.
     *   **Web Araması (`web_search_query`):** Güncel bilgiler, hava durumu, fiyatlar veya etkinlikler için internet araması (Google SerpAPI).
     *   **Döküman Analizi (`document_qa`):** Yüklenen PDF, TXT veya MD dosyaları üzerinde soru-cevap (RAG).
 *   **Hibrit Sınıflandırma:** Kural tabanlı (Rule-based) ve Yapay Zeka (Zero-shot classification) tabanlı hibrit bir intent algılama mekanizması kullanır.
 *   **RAG (Retrieval-Augmented Generation):** Yüklenen dökümanları vektör veritabanına (ChromaDB) kaydeder ve bağlam odaklı cevaplar üretir.
-*   **Modern Arayüz:** Streamlit ile geliştirilmiş kullanıcı dostu bir arayüz.
+*   **Modern Arayüz:** Streamlit ile geliştirilmiş, çoklu oturum destekli kullanıcı dostu bir arayüz.
 *   **Güçlü Arka Uç:** FastAPI tabanlı hızlı ve modüler backend.
 *   **Yerel LLM Desteği:** Ollama üzerinden `gemma3:4b` modelini kullanır.
 
 ## 🛠️ Teknolojiler
 
-*   **Backend:** FastAPI
-*   **Frontend:** Streamlit
+*   **Backend:** FastAPI, Google Gemini API (STT)
+*   **Frontend:** Streamlit, streamlit-mic-recorder
 *   **LLM:** Ollama (Gemma 3 4B)
 *   **Embeddings:** HuggingFace (`all-MiniLM-L6-v2`)
 *   **Vector DB:** ChromaDB
@@ -32,9 +34,11 @@ Projenin çalışması için aşağıdaki araçların kurulu olması gerekmekted
 2.  **Ollama:** Bilgisayarınızda [Ollama](https://ollama.com/) kurulu ve çalışıyor olmalıdır.
     *   Gerekli modeli indirmek için terminalde şu komutu çalıştırın:
         ```bash
-        ollama pull gemma3:4b
+        ollama run gemma3:4b
         ```
-3.  **SerpAPI Anahtarı:** Google aramaları için [SerpAPI](https://serpapi.com/) üzerinden ücretsiz bir API anahtarı almanız gerekmektedir.
+3.  **API Anahtarları:**
+    *   **SerpAPI:** Google aramaları için [SerpAPI](https://serpapi.com/).
+    *   **Google Gemini 2.5 Flash API:** Sesli sohbet (STT) özelliği için [Google AI Studio](https://aistudio.google.com/).
 
 ## ⚙️ Kurulum
 
@@ -60,9 +64,10 @@ Projenin çalışması için aşağıdaki araçların kurulu olması gerekmekted
 
 4.  **Çevre Değişkenlerini Ayarlayın:**
     *   Proje ana dizininde `.env` adında bir dosya oluşturun.
-    *   İçerisine SerpAPI anahtarınızı ekleyin:
+    *   İçerisine API anahtarlarınızı ekleyin:
         ```env
-        SERPAPI_KEY=senin_serpapi_anahtarin_buraya
+        SERPAPI_KEY=senin_serpapi_anahtarin
+        GOOGLE_API_KEY=senin_google_gemini_anahtarin
         ```
 
 ## ▶️ Çalıştırma
@@ -87,8 +92,8 @@ streamlit run app.py
 
 ```
 intent_detection/
-├── app.py              # Streamlit Frontend uygulaması
-├── main.py             # FastAPI Backend uygulaması
+├── app.py              # Streamlit Frontend (Sohbet UI, Ses Kaydı)
+├── main.py             # FastAPI Backend (Intent, RAG, STT)
 ├── requirements.txt    # Python kütüphane bağımlılıkları
 ├── .env                # API anahtarları (siz oluşturmalısınız)
 └── chroma_db/          # Vektör veritabanı dosyaları (otomatik oluşur)

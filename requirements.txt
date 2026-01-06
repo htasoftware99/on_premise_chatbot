@@ -1,6 +1,7 @@
 fastapi
 uvicorn
 streamlit
+streamlit-mic-recorder
 langchain
 langchain-community
 langchain-ollama
