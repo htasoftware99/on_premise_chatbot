@@ -7,7 +7,6 @@ from pydantic import BaseModel
 from dotenv import load_dotenv
 from transformers import pipeline
 
-# --- IMPORTLAR ---
 from langchain_classic.memory import ConversationBufferMemory
 from langchain_classic.chains import ConversationChain, RetrievalQA
 from langchain_classic.prompts import PromptTemplate
@@ -47,7 +46,7 @@ app = FastAPI()
 # --- CORS AYARLARI (REACT İÇİN GEREKLİ) ---
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Güvenlik için prodüksiyonda ["http://localhost:5173"] yapabilirsiniz
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -137,7 +136,7 @@ class ResponseModel(BaseModel):
 
 # --- ENDPOINTLER ---
 
-# YENİ ENDPOINT: Ses dosyasını metne çevir (Gemini ile)
+# Ses dosyasını metne çevir (Gemini ile)
 @app.post("/transcribe")
 async def transcribe_audio(file: UploadFile = File(...)):
     try:

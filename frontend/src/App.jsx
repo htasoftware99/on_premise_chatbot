@@ -153,7 +153,7 @@ function App() {
         ? { ...session, file: null }
         : session
       ));
-      // Not: Backend'den silmek için ayrı endpoint gerekir, şimdilik UI'dan siliyoruz.
+      
   };
 
   // --- SES KAYDI ---

@@ -9,7 +9,7 @@ API_URL = "http://localhost:8000"
 # Sayfa Ayarları
 st.set_page_config(
     page_title="Bilge AI Asistanı", 
-    layout="wide", # Sidebar daha rahat görünsün diye wide yaptım
+    layout="wide", 
     page_icon="✨"
 )
 
@@ -27,7 +27,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# --- SESSION YÖNETİMİ (YENİ EKLENEN KISIM) ---
+# --- SESSION YÖNETİMİ ---
 
 # 1. Tüm sohbetleri tutacak liste
 if "chat_sessions" not in st.session_state:

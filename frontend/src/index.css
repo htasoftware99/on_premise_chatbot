@@ -9,8 +9,8 @@ body {
   padding: 0;
   width: 100vw;
   height: 100vh;
-  background-color: #0f172a; /* Ana arka plan rengi */
-  overflow: hidden; /* Sayfanın kendisi kaymasın */
+  background-color: #0f172a; 
+  overflow: hidden; 
 }
 
 #root {
