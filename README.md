@@ -104,9 +104,10 @@ streamlit run app.py
 
 ```
 intent_detection/
-├── frontend/           # React Frontend (Vite + Tailwind)
+├── venv                # Sanal ortam oluşturulduktan sonra görünecek.
+├── frontend/           # React Frontend (Vite)
 ├── app.py              # Streamlit Frontend (Alternatif UI)
-├── main.py             # FastAPI Backend (Intent, RAG, STT)
+├── main.py             # FastAPI Backend (Intent, RAG, STT, Embedding)
 ├── requirements.txt    # Python kütüphane bağımlılıkları
 ├── .env                # API anahtarları (siz oluşturmalısınız)
 └── chroma_db/          # Vektör veritabanı dosyaları (otomatik oluşur)
