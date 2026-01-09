@@ -1,0 +1,249 @@
+/* App.css - Full Updated */
+:root {
+  --bg-dark: #0f172a;
+  --sidebar-bg: #020617;
+  --chat-bg: #0f172a;
+  --primary: #6366f1;
+  --user-bg: #4338ca;
+  --ai-bg: #1e293b;
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border: #1e293b;
+}
+
+.app-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-dark);
+  color: var(--text);
+  overflow: hidden;
+}
+
+/* SIDEBAR STYLES */
+.sidebar {
+  width: 280px;
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.new-chat-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  transition: opacity 0.2s;
+}
+
+.new-chat-btn:hover { opacity: 0.9; }
+
+.history-label {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    padding-left: 5px;
+}
+
+.chat-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.chat-item {
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-muted);
+    transition: 0.2s;
+    font-size: 0.9rem;
+    justify-content: space-between; /* Silme butonu için */
+}
+
+.chat-item:hover {
+    background-color: rgba(255,255,255,0.05);
+    color: var(--text);
+}
+
+.chat-item.active {
+    background-color: #1e293b;
+    color: white;
+    font-weight: 500;
+}
+
+.chat-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+}
+
+.delete-chat-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    opacity: 0; /* Sadece hover olunca görünsün */
+    cursor: pointer;
+    padding: 2px;
+}
+
+.chat-item:hover .delete-chat-btn {
+    opacity: 1;
+}
+
+.delete-chat-btn:hover { color: #ef4444; }
+
+/* CHAT AREA */
+.chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.messages-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.empty-state {
+    text-align: center;
+    margin-top: 15%;
+    color: var(--text-muted);
+}
+.empty-icon { font-size: 3rem; margin-bottom: 1rem; background: #1e293b; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin: 0 auto 20px;}
+
+.message {
+  max-width: 75%;
+  padding: 1rem;
+  border-radius: 12px;
+  line-height: 1.6;
+}
+
+.user-msg {
+  align-self: flex-end;
+  background-color: var(--user-bg);
+  color: white;
+  border-bottom-right-radius: 2px;
+}
+
+.ai-msg {
+  align-self: flex-start;
+  background-color: var(--ai-bg);
+  border: 1px solid var(--border);
+  border-bottom-left-radius: 2px;
+}
+
+.source-badge {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+/* INPUT AREA & FILE PREVIEW */
+.input-area {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Dosya Yükleme Rozeti */
+.file-preview-badge {
+    background-color: #1e293b;
+    border: 1px solid #6366f1;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px; /* Inputun üstünde durması için */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.file-preview-badge button {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.file-preview-badge button:hover { color: #ef4444; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.input-wrapper {
+  width: 100%;
+  max-width: 800px;
+  background-color: var(--sidebar-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 8px;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+textarea {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: white;
+  resize: none;
+  padding: 10px;
+  outline: none;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+.icon-btn:hover { background-color: #1e293b; color: white; }
+.send-btn { background-color: var(--primary); color: white; }
+.send-btn:hover { background-color: #4f46e5; }
+.recording { color: #ef4444; animation: pulse 1.5s infinite; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }

@@ -26,6 +26,8 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 import google.generativeai as genai
 
+from fastapi.middleware.cors import CORSMiddleware
+
 load_dotenv()
 
 SERPAPI_KEY = os.getenv("SERPAPI_KEY")
@@ -41,6 +43,17 @@ else:
 
 # --- BAŞLANGIÇ AYARLARI ---
 app = FastAPI()
+
+# --- CORS AYARLARI (REACT İÇİN GEREKLİ) ---
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Güvenlik için prodüksiyonda ["http://localhost:5173"] yapabilirsiniz
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 os.environ["SERPAPI_API_KEY"] = SERPAPI_KEY
 
 # --- PROMPTLAR ---
@@ -298,6 +311,17 @@ async def chat_endpoint(request: QueryRequest):
         "intent": intent,
         "source": source_used
     }
+
+
+@app.post("/reset")
+async def reset_session():
+    global vector_store, memory
+    # Hafızayı temizle
+    memory.clear()
+    # Vektör veritabanını sıfırla (İsteğe bağlı, yeni sohbette eski dökümanı unutmak isterseniz)
+    vector_store = None 
+    print("♻️  Sohbet ve hafıza sıfırlandı.")
+    return {"message": "Hafıza temizlendi"}
 
 if __name__ == "__main__":
     import uvicorn
